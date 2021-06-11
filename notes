@@ -1,0 +1,91 @@
+ kubectl get nodes -o wide
+NAME                  STATUS   ROLES                  AGE     VERSION   INTERNAL-IP   EXTERNAL-IP   OS-IMAGE       KERNEL-VERSION     CONTAINER-RUNTIME
+kind-control-plane    Ready    control-plane,master   5h40m   v1.20.2   172.18.0.2    <none>        Ubuntu 20.10   5.8.0-43-generic   containerd://1.4.0-106-gce4439a8
+
+Kubernetes is a container management technology developed in Google lab to manage containerized applications in different kind of environments such as physical, virtual, and cloud infrastructure
+
+A pod is a collection of containers and its storage inside a node of a Kubernetes cluster. It is possible to create a pod with multiple containers inside it. For example, keeping a database container and data container in the same pod.
+Types of Pod
+
+There are two types of Pods −
+
+    Single container pod
+    Multi container pod
+
+
+Single Container Pod
+
+apiVersion: v1
+kind: Pod
+metadata:
+   name: Tomcat
+spec:
+   containers:
+   - name: Tomcat
+    image: tomcat: 8.0
+    ports:
+containerPort: 7500
+   imagePullPolicy: Always
+
+
+Multi Container Pod
+
+apiVersion: v1
+kind: Pod
+metadata:
+   name: Tomcat
+spec:
+   containers:
+   - name: Tomcat
+    image: tomcat: 8.0
+    ports:
+containerPort: 7500
+   imagePullPolicy: Always
+   -name: Database
+   Image: mongoDB
+   Ports:
+containerPort: 7501
+   imagePullPolicy: Always
+
+kubectl create –f tomcat.yml
+
+
+A service can be defined as a logical set of pods. It can be defined as an abstraction on the top of the pod which provides a single IP address and DNS name by which pods can be accessed. With Service, it is very easy to manage load balancing configuration. It helps pods to scale very easily.
+
+service -- pod permanent IP & load balancing
+    Ingress -- pod
+
+config-maps -- pod
+    secrets -- pod
+
+Data storage:  Volumes
+    volume can be on local or on remote
+
+Deployment & Statefulset:
+    Deployment - blueprint for pods 
+    Statefulset - for stateful applications (tedios, so better have outside DB)
+
+node processes
+==============
+kubelet
+kube proxy
+container RUNTIME
+
+master processes
+================
+api server
+scheduler
+controller manager - detects cluster change state
+etcd - key value store -  state manifest will be here
+
+
+
+sudo usermod -a -G eks $USER
+sudo chown -f -R $USER ~/.kube
+sudo su - $USER
+sudo snap alias eks.kubectl kubectl
+sudo eks status --wait-ready
+
+
+kubectl set image deployment.v1.apps/client-deployment client=pavankumarbvrm/multi-client:v1
+
